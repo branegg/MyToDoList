@@ -11,25 +11,31 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
+import firebase from 'firebase';
+
 import background from './../assets/images/background.jpg';
 import logo from './../assets/images/logo.png';
-import PasswordInput from './../components/PasswordInput';
+
+import PasswordInput from '../components/PasswordInput';
 import Colors from './../constants/Colors.js';
-import firebase from 'firebase';
+import Loading from './../components/Loading';
 
 export default Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     SplashScreen.hide();
   });
 
   const handleLogin = () => {
+    setIsLoading(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
+        setIsLoading(false);
         navigation.navigate('Home');
       })
       .catch(error => {
@@ -39,6 +45,13 @@ export default Login = ({navigation}) => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      {isLoading && (
+        <Loading
+          size="large"
+          color={Colors.red}
+          bgColor={Colors.transparentBlue}
+        />
+      )}
       <ImageBackground source={background} style={styles.container}>
         <Image style={styles.logo} source={logo} />
         <TextInput
@@ -54,11 +67,13 @@ export default Login = ({navigation}) => {
           placeholderTextColor={Colors.pink}
           setPassword={password => setPassword(password)}
         />
-        <View style={styles.forgottenPasswordWrapper}>
-          <Text style={styles.forgottenPasswordText}>Forgotten password?</Text>
+        <View style={styles.forgotPasswordWrapper}>
+          <Text style={styles.forgotPasswordText}>Forgot password?</Text>
         </View>
-        <TouchableOpacity onPress={() => handleLogin()}>
-          <Text>Login</Text>
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={() => handleLogin()}>
+          <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
       </ImageBackground>
     </KeyboardAvoidingView>
@@ -88,6 +103,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     paddingHorizontal: 10,
     marginBottom: 20,
+    fontFamily: 'Sen-Regular',
   },
   inputPassword: {
     width: '85%',
@@ -100,15 +116,33 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  forgottenPasswordWrapper: {
+  forgotPasswordWrapper: {
     width: '85%',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 20,
+    marginTop: 15,
   },
-  forgottenPasswordText: {
+  forgotPasswordText: {
     color: Colors.pink,
     fontSize: 10,
     fontWeight: '400',
+    textDecorationLine: 'underline',
+    fontFamily: 'Sen-Regular',
+  },
+  loginButton: {
+    width: 130,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.blue,
+    borderRadius: 10,
+    marginTop: 50,
+  },
+  loginText: {
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    fontFamily: 'Sen-Bold',
   },
 });

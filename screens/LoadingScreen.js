@@ -2,7 +2,10 @@ import React, {useEffect} from 'react';
 import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
 import firebase from 'firebase';
 
-export default Loading = ({navigation}) => {
+import Colors from './../constants/Colors';
+import Loading from './../components/Loading';
+
+export default LoadingScreen = ({navigation}) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       user ? navigation.navigate('Home') : navigation.navigate('Login');
@@ -11,8 +14,11 @@ export default Loading = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text>Loading</Text>
-      <ActivityIndicator size="large" />
+      <Loading
+        size="large"
+        color={Colors.red}
+        bgColor={Colors.transparentBlue}
+      />
     </View>
   );
 };
