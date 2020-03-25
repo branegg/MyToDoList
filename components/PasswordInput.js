@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   TextInput,
@@ -9,9 +9,13 @@ import {
 import eyeIcon from './../assets/images/eye-icon.png';
 import {blue} from './../constants/Colors';
 
-export default PasswordInput = ({style, placeholder, placeholderTextColor}) => {
-  const [value, onChangeText] = React.useState('');
-  const [isVisible, changeVisibility] = React.useState(false);
+export default PasswordInput = ({
+  style,
+  placeholder,
+  placeholderTextColor,
+  setPassword,
+}) => {
+  const [isVisible, changeVisibility] = useState(false);
 
   return (
     <View style={style}>
@@ -20,8 +24,8 @@ export default PasswordInput = ({style, placeholder, placeholderTextColor}) => {
         placeholderTextColor={placeholderTextColor}
         style={styles.input}
         secureTextEntry={!isVisible}
-        onChangeText={text => {
-          onChangeText(text);
+        onChangeText={password => {
+          setPassword(password);
         }}
       />
       <TouchableWithoutFeedback

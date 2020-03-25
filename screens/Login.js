@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import {
   View,
   Text,
@@ -8,14 +9,33 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import background from './../assets/images/background.jpg';
 import logo from './../assets/images/logo.png';
 import PasswordInput from './../components/PasswordInput';
 import Colors from './../constants/Colors.js';
+import firebase from 'firebase';
 
-export default LoginScreen = () => {
-  const [value, onChangeText] = React.useState('');
+export default Login = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    SplashScreen.hide();
+  });
+
+  const handleLogin = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        navigation.navigate('Home');
+      })
+      .catch(error => {
+        Alert.alert(error.message);
+      });
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -23,19 +43,23 @@ export default LoginScreen = () => {
         <Image style={styles.logo} source={logo} />
         <TextInput
           style={styles.input}
-          onChangeText={text => onChangeText(text)}
+          onChangeText={email => setEmail(email)}
           placeholder="E-mail"
           placeholderTextColor={Colors.pink}
-          value={value}
+          value={email}
         />
         <PasswordInput
           style={styles.inputPassword}
           placeholder="Password"
           placeholderTextColor={Colors.pink}
+          setPassword={password => setPassword(password)}
         />
         <View style={styles.forgottenPasswordWrapper}>
           <Text style={styles.forgottenPasswordText}>Forgotten password?</Text>
         </View>
+        <TouchableOpacity onPress={() => handleLogin()}>
+          <Text>Login</Text>
+        </TouchableOpacity>
       </ImageBackground>
     </KeyboardAvoidingView>
   );

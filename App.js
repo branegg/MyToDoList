@@ -1,9 +1,12 @@
 import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet, StatusBar, Platform} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import LoginScreen from './screens/LoginScreen';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import Login from './screens/Login';
+import Loading from './screens/Loading';
+import Home from './screens/Home';
+import firebase from 'firebase';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBY21mBiKbh0itzfcdQqnxfMpEWl08Sp88',
@@ -18,15 +21,17 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const App = () => {
-  useEffect(() => {
-    SplashScreen.hide();
-  });
+  const Stack = createStackNavigator();
 
   return (
-    <>
+    <NavigationContainer>
       {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
-      <LoginScreen />
-    </>
+      <Stack.Navigator headerMode="none">
+        <Stack.Screen name="Loading" component={Loading} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
