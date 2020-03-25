@@ -197,6 +197,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 20,
     fontFamily: 'Sen-Regular',
+    color: Colors.black,
   },
   tasks: {
     width: '80%',

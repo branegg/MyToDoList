@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import eyeIcon from './../assets/images/eye-icon.png';
-import {blue} from './../constants/Colors';
+import Colors from './../constants/Colors';
 
 export default PasswordInput = ({
   style,
@@ -47,5 +47,6 @@ const styles = StyleSheet.create({
   input: {
     width: '89%',
     paddingHorizontal: 10,
+    color: Colors.black,
   },
 });

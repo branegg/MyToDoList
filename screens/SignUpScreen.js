@@ -16,7 +16,7 @@ import background from './../assets/images/background.jpg';
 import logo from './../assets/images/logo.png';
 
 import PasswordInput from '../components/PasswordInput';
-import Colors from './../constants/Colors.js';
+import Colors from './../constants/Colors';
 import Loading from './../components/Loading';
 import Button from './../components/Button';
 
@@ -120,12 +120,13 @@ const styles = StyleSheet.create({
   input: {
     width: '85%',
     height: 40,
-    borderColor: Colors.blue,
+    borderColor: Colors.black,
     borderRadius: 10,
     borderWidth: 2,
     paddingHorizontal: 10,
     marginBottom: 20,
     fontFamily: 'Sen-Regular',
+    color: Colors.blue,
   },
   inputPassword: {
     width: '85%',

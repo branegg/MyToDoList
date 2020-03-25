@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 20,
     fontFamily: 'Sen-Regular',
+    color: Colors.black,
   },
   inputPassword: {
     width: '85%',
