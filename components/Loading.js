@@ -6,8 +6,6 @@ export default Loading = ({size, color, bgColor}) => {
   const [fadeAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
-    SplashScreen.hide();
-
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 300,

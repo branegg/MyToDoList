@@ -22,7 +22,7 @@ import Button from './../components/Button';
 
 export default SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,7 +36,7 @@ export default SignUpScreen = ({navigation}) => {
           .database()
           .ref('users/' + firebase.auth().currentUser.uid)
           .set({
-            firstName,
+            username,
             email,
           })
           .then(() => {
@@ -67,10 +67,10 @@ export default SignUpScreen = ({navigation}) => {
         <Image style={styles.logo} source={logo} />
         <TextInput
           style={styles.input}
-          onChangeText={firstName => setFirstName(firstName)}
-          placeholder="First name"
+          onChangeText={username => setUsername(username)}
+          placeholder="Username"
           placeholderTextColor={Colors.pink}
-          value={firstName}
+          value={username}
         />
         <TextInput
           style={styles.input}
@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
   inputPassword: {
     width: '85%',
     height: 40,
-    display: 'flex',
     borderColor: Colors.blue,
     borderRadius: 10,
     borderWidth: 2,

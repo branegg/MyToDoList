@@ -10,6 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import firebase from 'firebase';
+import SplashScreen from 'react-native-splash-screen';
 
 import background from './../assets/images/background.jpg';
 import logo from './../assets/images/logo.png';
@@ -23,6 +24,10 @@ export default LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  });
 
   const handleLogin = () => {
     setIsLoading(true);
@@ -113,7 +118,6 @@ const styles = StyleSheet.create({
   inputPassword: {
     width: '85%',
     height: 40,
-    display: 'flex',
     borderColor: Colors.blue,
     borderRadius: 10,
     borderWidth: 2,
