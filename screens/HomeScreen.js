@@ -22,7 +22,12 @@ import Colors from './../constants/Colors';
 import Button from './../components/Button';
 
 export default HomeScreen = ({navigation}) => {
-  const uid = firebase.auth().currentUser.uid;
+  let uid;
+
+  if (firebase.auth().currentUser) {
+    uid = firebase.auth().currentUser.uid;
+  }
+
   const [isLoading, setIsLoading] = useState(true);
   const [tasks, setTasks] = useState({});
   const [text, setText] = useState('');
@@ -96,11 +101,13 @@ export default HomeScreen = ({navigation}) => {
   };
 
   const handleLogout = () => {
+    setIsLoading(true);
     firebase
       .auth()
       .signOut()
       .then(() => {
-        navigation.navigate('Loading');
+        setIsLoading(false);
+        navigation.navigate('Login');
       });
   };
 

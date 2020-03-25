@@ -8,6 +8,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Alert,
+  Linking,
 } from 'react-native';
 import firebase from 'firebase';
 import SplashScreen from 'react-native-splash-screen';
@@ -19,6 +20,7 @@ import PasswordInput from '../components/PasswordInput';
 import Colors from './../constants/Colors.js';
 import Loading from './../components/Loading';
 import Button from './../components/Button';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -30,18 +32,24 @@ export default LoginScreen = ({navigation}) => {
   });
 
   const handleLogin = () => {
-    setIsLoading(true);
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        setIsLoading(false);
-        navigation.navigate('Home');
-      })
-      .catch(error => {
-        setIsLoading(false);
-        Alert.alert(error.message);
-      });
+    if (email) {
+      setIsLoading(true);
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          setPassword('');
+          setEmail('');
+          setIsLoading(false);
+          navigation.navigate('Home');
+        })
+        .catch(error => {
+          setIsLoading(false);
+          Alert.alert(error.message);
+        });
+    } else {
+      Alert.alert('Enter your e-mail address');
+    }
   };
   const handleSignUp = () => {
     navigation.navigate('SignUp');
@@ -70,10 +78,17 @@ export default LoginScreen = ({navigation}) => {
           placeholder="Password"
           placeholderTextColor={Colors.pink}
           setPassword={password => setPassword(password)}
+          value={password}
         />
-        <View style={styles.forgotPasswordWrapper}>
+        <TouchableOpacity
+          style={styles.forgotPasswordWrapper}
+          onPress={() =>
+            Linking.openURL(
+              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/shrug_1f937.png',
+            )
+          }>
           <Text style={styles.forgotPasswordText}>Forgot password?</Text>
-        </View>
+        </TouchableOpacity>
         <Button
           label="Login"
           onPress={() => handleLogin()}

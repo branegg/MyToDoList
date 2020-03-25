@@ -14,6 +14,7 @@ export default PasswordInput = ({
   placeholder,
   placeholderTextColor,
   setPassword,
+  value,
 }) => {
   const [isVisible, changeVisibility] = useState(false);
 
@@ -27,6 +28,7 @@ export default PasswordInput = ({
         onChangeText={password => {
           setPassword(password);
         }}
+        value={value}
       />
       <TouchableWithoutFeedback
         onPress={() => changeVisibility(prevState => !prevState)}>

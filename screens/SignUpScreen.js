@@ -27,31 +27,37 @@ export default SignUpScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = () => {
-    setIsLoading(true);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        firebase
-          .database()
-          .ref('users/' + firebase.auth().currentUser.uid)
-          .set({
-            username,
-            email,
-          })
-          .then(() => {
-            setIsLoading(false);
-            navigation.navigate('Home');
-          })
-          .catch(error => {
-            setIsLoading(false);
-            Alert.alert(error.message);
-          });
-      })
-      .catch(error => {
-        setIsLoading(false);
-        Alert.alert(error.message);
-      });
+    if (!username) {
+      Alert.alert('We need your username!');
+    } else if (username.length > 10) {
+      Alert.alert('Username cannot be longer that 10 charactes');
+    } else {
+      setIsLoading(true);
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          firebase
+            .database()
+            .ref('users/' + firebase.auth().currentUser.uid)
+            .set({
+              username,
+              email,
+            })
+            .then(() => {
+              setIsLoading(false);
+              navigation.navigate('Home');
+            })
+            .catch(error => {
+              setIsLoading(false);
+              Alert.alert(error.message);
+            });
+        })
+        .catch(error => {
+          setIsLoading(false);
+          Alert.alert(error.message);
+        });
+    }
   };
 
   return (
