@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import {
   View,
   Text,
@@ -19,27 +20,38 @@ import Colors from './../constants/Colors.js';
 import Loading from './../components/Loading';
 import Button from './../components/Button';
 
-export default LoginScreen = ({navigation}) => {
+export default SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleSignUp = () => {
     setIsLoading(true);
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        setIsLoading(false);
-        navigation.navigate('Home');
+        firebase
+          .database()
+          .ref('users/' + firebase.auth().currentUser.uid)
+          .set({
+            firstName,
+            email,
+          })
+          .then(() => {
+            setIsLoading(false);
+            navigation.navigate('Home');
+          })
+          .catch(error => {
+            setIsLoading(false);
+            Alert.alert(error.message);
+          });
       })
       .catch(error => {
         setIsLoading(false);
         Alert.alert(error.message);
       });
-  };
-  const handleSignUp = () => {
-    navigation.navigate('SignUp');
   };
 
   return (
@@ -55,6 +67,13 @@ export default LoginScreen = ({navigation}) => {
         <Image style={styles.logo} source={logo} />
         <TextInput
           style={styles.input}
+          onChangeText={firstName => setFirstName(firstName)}
+          placeholder="First name"
+          placeholderTextColor={Colors.pink}
+          value={firstName}
+        />
+        <TextInput
+          style={styles.input}
           onChangeText={email => setEmail(email)}
           placeholder="E-mail"
           placeholderTextColor={Colors.pink}
@@ -65,14 +84,6 @@ export default LoginScreen = ({navigation}) => {
           placeholder="Password"
           placeholderTextColor={Colors.pink}
           setPassword={password => setPassword(password)}
-        />
-        <View style={styles.forgotPasswordWrapper}>
-          <Text style={styles.forgotPasswordText}>Forgot password?</Text>
-        </View>
-        <Button
-          label="Login"
-          onPress={() => handleLogin()}
-          style={{marginTop: 50}}
         />
         <Button
           label="Sign Up"
@@ -120,6 +131,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginBottom: 30,
   },
   forgotPasswordWrapper: {
     width: '85%',

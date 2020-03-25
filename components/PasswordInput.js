@@ -40,10 +40,10 @@ export default PasswordInput = ({
 };
 
 const styles = StyleSheet.create({
-  eyeIcon: {opacity: 0.6, height: 18, width: '10%', resizeMode: 'contain'},
-  eyeIconActive: {opacity: 1, height: 18, width: '10%', resizeMode: 'contain'},
+  eyeIcon: {opacity: 0.6, height: 17, width: '10%', resizeMode: 'contain'},
+  eyeIconActive: {opacity: 1, height: 17, width: '10%', resizeMode: 'contain'},
   input: {
-    width: '90%',
+    width: '89%',
     paddingHorizontal: 10,
   },
 });

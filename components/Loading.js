@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {View, ActivityIndicator, StyleSheet, Animated} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 export default Loading = ({size, color, bgColor}) => {
   const [fadeAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
+    SplashScreen.hide();
+
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 300,

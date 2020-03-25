@@ -15,11 +15,7 @@ import background from './../assets/images/background.jpg';
 import logo from './../assets/images/logo.png';
 import firebase from 'firebase';
 
-export default Home = ({navigation}) => {
-  useEffect(() => {
-    SplashScreen.hide();
-  });
-
+export default HomeScreen = ({navigation}) => {
   const handleLogout = () => {
     firebase
       .auth()
