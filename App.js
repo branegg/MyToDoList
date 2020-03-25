@@ -25,7 +25,11 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
+      {Platform.OS === 'ios' ? (
+        <StatusBar barStyle="dark-content" />
+      ) : (
+        <StatusBar barStyle="light-content" backgroundColor="#1F2C64" />
+      )}
       <Stack.Navigator headerMode="none">
         <Stack.Screen name="Loading" component={Loading} />
         <Stack.Screen name="Login" component={Login} />
