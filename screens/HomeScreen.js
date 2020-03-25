@@ -50,29 +50,49 @@ export default HomeScreen = ({navigation}) => {
   }, []);
 
   const addTask = () => {
-    setText('');
-    setIsLoading(true);
-    firebase
-      .database()
-      .ref('tasks/')
-      .push({
-        user: uid,
-        text: text,
-      })
-      .then(() => {
-        setIsLoading(false);
-      })
-      .catch(error => {
-        setIsLoading(false);
-        Alert.alert(error.message);
-      });
+    if (text) {
+      setText('');
+      setIsLoading(true);
+      firebase
+        .database()
+        .ref('tasks/')
+        .push({
+          user: uid,
+          text: text,
+        })
+        .then(() => {
+          setIsLoading(false);
+        })
+        .catch(error => {
+          setIsLoading(false);
+          Alert.alert(error.message);
+        });
+    } else {
+      Alert.alert("Enter the task's description");
+    }
   };
 
   const deleteTask = key => {
-    firebase
-      .database()
-      .ref(`tasks/${key}`)
-      .remove();
+    Alert.alert(
+      'Are you sure?',
+      `It's irreversible!`,
+      [
+        {
+          text: 'Yes',
+          onPress: () => {
+            firebase
+              .database()
+              .ref(`tasks/${key}`)
+              .remove();
+          },
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
   };
 
   const handleLogout = () => {
